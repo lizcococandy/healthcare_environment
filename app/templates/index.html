@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero">
+    <h1>醫療事業環境永續資訊管理系統</h1>
+    <p class="subtitle">Healthcare Environment Sustainability Information Management System</p>
+    <p>追蹤和管理醫療機構的環境永續數據，包括能源消耗、用水量、廢棄物處理和碳排放。</p>
+    <div class="hero-actions">
+        <a href="{{ url_for('auth.login') }}" class="btn btn-primary">登入系統</a>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-secondary">註冊帳號</a>
+    </div>
+</div>
+
+<div class="features">
+    <h2>系統功能</h2>
+    <div class="features-grid">
+        <div class="feature-card">
+            <h3>⚡ 能源管理</h3>
+            <p>追蹤電力、天然氣和燃油消耗</p>
+        </div>
+        <div class="feature-card">
+            <h3>💧 用水監控</h3>
+            <p>記錄用水量和廢水處理數據</p>
+        </div>
+        <div class="feature-card">
+            <h3>♻️ 廢棄物管理</h3>
+            <p>管理醫療、一般、可回收和有害廢棄物</p>
+        </div>
+        <div class="feature-card">
+            <h3>🌍 碳排放追蹤</h3>
+            <p>計算和監控各範疇碳排放量</p>
+        </div>
+        <div class="feature-card">
+            <h3>📊 數據分析</h3>
+            <p>視覺化趨勢和生成永續報告</p>
+        </div>
+        <div class="feature-card">
+            <h3>🔒 安全可靠</h3>
+            <p>用戶認證和數據保護</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

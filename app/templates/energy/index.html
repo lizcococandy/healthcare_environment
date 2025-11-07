@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}能源消耗 - 醫療環境永續系統{% endblock %}
+
+{% block content %}
+<div class="content-header">
+    <h1>能源消耗記錄</h1>
+    <a href="{{ url_for('energy.add') }}" class="btn btn-primary">新增記錄</a>
+</div>
+
+{% if records %}
+<table>
+    <thead>
+        <tr>
+            <th>設施名稱</th>
+            <th>日期</th>
+            <th>電力 (kWh)</th>
+            <th>天然氣 (m³)</th>
+            <th>燃油 (L)</th>
+            <th>備註</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.facility_name }}</td>
+            <td>{{ record.measurement_date }}</td>
+            <td>{{ "%.2f"|format(record.electricity_kwh) }}</td>
+            <td>{{ "%.2f"|format(record.natural_gas_m3) }}</td>
+            <td>{{ "%.2f"|format(record.fuel_oil_liters) }}</td>
+            <td>{{ record.notes[:50] }}{% if record.notes|length > 50 %}...{% endif %}</td>
+            <td>
+                <a href="{{ url_for('energy.delete', id=record.id) }}" 
+                   onclick="return confirm('確定要刪除此記錄嗎？')" 
+                   class="btn-delete">刪除</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="no-records">尚無能源消耗記錄</p>
+{% endif %}
+{% endblock %}

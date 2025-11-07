@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}碳排放 - 醫療環境永續系統{% endblock %}
+
+{% block content %}
+<div class="content-header">
+    <h1>碳排放記錄</h1>
+    <a href="{{ url_for('emissions.add') }}" class="btn btn-primary">新增記錄</a>
+</div>
+
+{% if records %}
+<table>
+    <thead>
+        <tr>
+            <th>設施名稱</th>
+            <th>日期</th>
+            <th>範疇一 (kg)</th>
+            <th>範疇二 (kg)</th>
+            <th>範疇三 (kg)</th>
+            <th>總排放 (kg)</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.facility_name }}</td>
+            <td>{{ record.measurement_date }}</td>
+            <td>{{ "%.2f"|format(record.scope1_emissions_kg) }}</td>
+            <td>{{ "%.2f"|format(record.scope2_emissions_kg) }}</td>
+            <td>{{ "%.2f"|format(record.scope3_emissions_kg) }}</td>
+            <td>{{ "%.2f"|format(record.total_emissions_kg) }}</td>
+            <td>
+                <a href="{{ url_for('emissions.delete', id=record.id) }}" 
+                   onclick="return confirm('確定要刪除此記錄嗎？')" 
+                   class="btn-delete">刪除</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="no-records">尚無碳排放記錄</p>
+{% endif %}
+{% endblock %}
