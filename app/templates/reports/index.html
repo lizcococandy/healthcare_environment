@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}報表分析 - 醫療環境永續系統{% endblock %}
+
+{% block content %}
+<div class="reports">
+    <h1>永續報表與分析</h1>
+    
+    <div class="report-section">
+        <h2>能源消耗趨勢（過去6個月）</h2>
+        {% if energy_trends %}
+        <table>
+            <thead>
+                <tr>
+                    <th>年月</th>
+                    <th>總電力消耗 (kWh)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trend in energy_trends %}
+                <tr>
+                    <td>{{ trend.year|int }}-{{ "%02d"|format(trend.month|int) }}</td>
+                    <td>{{ "%.2f"|format(trend.total_electricity or 0) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>尚無數據</p>
+        {% endif %}
+    </div>
+
+    <div class="report-section">
+        <h2>用水量趨勢（過去6個月）</h2>
+        {% if water_trends %}
+        <table>
+            <thead>
+                <tr>
+                    <th>年月</th>
+                    <th>總用水量 (m³)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trend in water_trends %}
+                <tr>
+                    <td>{{ trend.year|int }}-{{ "%02d"|format(trend.month|int) }}</td>
+                    <td>{{ "%.2f"|format(trend.total_water or 0) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>尚無數據</p>
+        {% endif %}
+    </div>
+
+    <div class="report-section">
+        <h2>廢棄物量趨勢（過去6個月）</h2>
+        {% if waste_trends %}
+        <table>
+            <thead>
+                <tr>
+                    <th>年月</th>
+                    <th>總廢棄物量 (kg)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trend in waste_trends %}
+                <tr>
+                    <td>{{ trend.year|int }}-{{ "%02d"|format(trend.month|int) }}</td>
+                    <td>{{ "%.2f"|format(trend.total_waste or 0) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>尚無數據</p>
+        {% endif %}
+    </div>
+
+    <div class="report-section">
+        <h2>碳排放趨勢（過去6個月）</h2>
+        {% if emissions_trends %}
+        <table>
+            <thead>
+                <tr>
+                    <th>年月</th>
+                    <th>總碳排放 (kg CO₂e)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trend in emissions_trends %}
+                <tr>
+                    <td>{{ trend.year|int }}-{{ "%02d"|format(trend.month|int) }}</td>
+                    <td>{{ "%.2f"|format(trend.total_emissions or 0) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>尚無數據</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}儀表板 - 醫療環境永續系統{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <h1>儀表板</h1>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>總電力消耗</h3>
+            <p class="stat-value">{{ "%.2f"|format(total_energy) }}</p>
+            <p class="stat-unit">千瓦時 (kWh)</p>
+        </div>
+        <div class="stat-card">
+            <h3>總用水量</h3>
+            <p class="stat-value">{{ "%.2f"|format(total_water) }}</p>
+            <p class="stat-unit">立方米 (m³)</p>
+        </div>
+        <div class="stat-card">
+            <h3>總廢棄物量</h3>
+            <p class="stat-value">{{ "%.2f"|format(total_waste) }}</p>
+            <p class="stat-unit">公斤 (kg)</p>
+        </div>
+        <div class="stat-card">
+            <h3>總碳排放</h3>
+            <p class="stat-value">{{ "%.2f"|format(total_emissions) }}</p>
+            <p class="stat-unit">公斤 CO₂e (kg)</p>
+        </div>
+    </div>
+
+    <div class="recent-records">
+        <div class="record-section">
+            <h2>最近能源記錄</h2>
+            {% if recent_energy %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>設施名稱</th>
+                            <th>日期</th>
+                            <th>電力 (kWh)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in recent_energy %}
+                        <tr>
+                            <td>{{ record.facility_name }}</td>
+                            <td>{{ record.measurement_date }}</td>
+                            <td>{{ "%.2f"|format(record.electricity_kwh) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>尚無記錄</p>
+            {% endif %}
+            <a href="{{ url_for('energy.index') }}" class="btn btn-secondary">查看全部</a>
+        </div>
+
+        <div class="record-section">
+            <h2>最近用水記錄</h2>
+            {% if recent_water %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>設施名稱</th>
+                            <th>日期</th>
+                            <th>用水量 (m³)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in recent_water %}
+                        <tr>
+                            <td>{{ record.facility_name }}</td>
+                            <td>{{ record.measurement_date }}</td>
+                            <td>{{ "%.2f"|format(record.water_consumption_m3) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>尚無記錄</p>
+            {% endif %}
+            <a href="{{ url_for('water.index') }}" class="btn btn-secondary">查看全部</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

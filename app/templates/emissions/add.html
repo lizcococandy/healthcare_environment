@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}新增碳排放記錄 - 醫療環境永續系統{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>新增碳排放記錄</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="facility_name">設施名稱</label>
+            <input type="text" id="facility_name" name="facility_name" required>
+        </div>
+        <div class="form-group">
+            <label for="measurement_date">測量日期</label>
+            <input type="date" id="measurement_date" name="measurement_date" required>
+        </div>
+        <div class="form-group">
+            <label for="scope1_emissions_kg">範疇一排放 (kg CO₂e) - 直接排放</label>
+            <input type="number" id="scope1_emissions_kg" name="scope1_emissions_kg" step="0.01" min="0" value="0">
+        </div>
+        <div class="form-group">
+            <label for="scope2_emissions_kg">範疇二排放 (kg CO₂e) - 能源間接排放</label>
+            <input type="number" id="scope2_emissions_kg" name="scope2_emissions_kg" step="0.01" min="0" value="0">
+        </div>
+        <div class="form-group">
+            <label for="scope3_emissions_kg">範疇三排放 (kg CO₂e) - 其他間接排放</label>
+            <input type="number" id="scope3_emissions_kg" name="scope3_emissions_kg" step="0.01" min="0" value="0">
+        </div>
+        <div class="form-group">
+            <label for="notes">備註</label>
+            <textarea id="notes" name="notes" rows="4"></textarea>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">儲存</button>
+            <a href="{{ url_for('emissions.index') }}" class="btn btn-secondary">取消</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
