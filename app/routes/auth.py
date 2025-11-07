@@ -20,10 +20,10 @@ def login():
             login_user(user)
             flash('登入成功！', 'success')
             next_page = request.args.get('next')
-            # Prevent open redirect vulnerability by validating the next URL
-            if not next_page or urlparse(next_page).netloc != '':
-                next_page = url_for('main.dashboard')
-            return redirect(next_page)
+            # Prevent open redirect vulnerability by only allowing relative URLs
+            if next_page and urlparse(next_page).netloc == '' and next_page.startswith('/'):
+                return redirect(next_page)
+            return redirect(url_for('main.dashboard'))
         else:
             flash('用戶名或密碼錯誤', 'error')
     
