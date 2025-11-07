@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required
+from urllib.parse import urlparse
 from app.models import User
 from app import db
 
@@ -19,7 +20,10 @@ def login():
             login_user(user)
             flash('登入成功！', 'success')
             next_page = request.args.get('next')
-            return redirect(next_page or url_for('main.dashboard'))
+            # Prevent open redirect vulnerability by validating the next URL
+            if not next_page or urlparse(next_page).netloc != '':
+                next_page = url_for('main.dashboard')
+            return redirect(next_page)
         else:
             flash('用戶名或密碼錯誤', 'error')
     
