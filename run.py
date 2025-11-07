@@ -31,6 +31,8 @@ def create_admin():
 
 
 if __name__ == '__main__':
-    # Note: debug=True is for development only. 
-    # Set FLASK_ENV=production or use a production WSGI server for deployment.
-    app.run(debug=True)
+    # Note: Debug mode should only be used in development.
+    # In production, set DEBUG=False in config or use environment variables.
+    import os
+    debug_mode = os.environ.get('FLASK_DEBUG', 'True').lower() == 'true'
+    app.run(debug=debug_mode)

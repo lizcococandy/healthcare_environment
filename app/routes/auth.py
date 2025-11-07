@@ -20,8 +20,9 @@ def login():
             login_user(user)
             flash('登入成功！', 'success')
             next_page = request.args.get('next')
-            # Prevent open redirect vulnerability by only allowing relative URLs
-            if next_page and urlparse(next_page).netloc == '' and next_page.startswith('/'):
+            # Prevent open redirect vulnerability by only allowing safe relative URLs
+            # Check: starts with /, doesn't start with //, and has no external domain
+            if next_page and next_page.startswith('/') and not next_page.startswith('//') and urlparse(next_page).netloc == '':
                 return redirect(next_page)
             return redirect(url_for('main.dashboard'))
         else:
