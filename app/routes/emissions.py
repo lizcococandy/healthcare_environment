@@ -20,13 +20,17 @@ def index():
 def add():
     """Add new carbon emissions record"""
     if request.method == 'POST':
-        facility_name = request.form.get('facility_name')
-        measurement_date = datetime.strptime(request.form.get('measurement_date'), '%Y-%m-%d').date()
-        scope1_emissions_kg = float(request.form.get('scope1_emissions_kg', 0))
-        scope2_emissions_kg = float(request.form.get('scope2_emissions_kg', 0))
-        scope3_emissions_kg = float(request.form.get('scope3_emissions_kg', 0))
-        total_emissions_kg = scope1_emissions_kg + scope2_emissions_kg + scope3_emissions_kg
-        notes = request.form.get('notes', '')
+        try:
+            facility_name = request.form.get('facility_name')
+            measurement_date = datetime.strptime(request.form.get('measurement_date'), '%Y-%m-%d').date()
+            scope1_emissions_kg = float(request.form.get('scope1_emissions_kg', 0))
+            scope2_emissions_kg = float(request.form.get('scope2_emissions_kg', 0))
+            scope3_emissions_kg = float(request.form.get('scope3_emissions_kg', 0))
+            total_emissions_kg = scope1_emissions_kg + scope2_emissions_kg + scope3_emissions_kg
+            notes = request.form.get('notes', '')
+        except (ValueError, TypeError) as e:
+            flash('輸入資料格式錯誤，請檢查日期和數值格式', 'error')
+            return render_template('emissions/add.html')
         
         record = CarbonEmissions(
             facility_name=facility_name,

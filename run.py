@@ -1,5 +1,6 @@
 from app import create_app, db
 from app.models import User
+import getpass
 
 app = create_app()
 
@@ -16,7 +17,7 @@ def create_admin():
     """Create an admin user."""
     username = input("Enter admin username: ")
     email = input("Enter admin email: ")
-    password = input("Enter admin password: ")
+    password = getpass.getpass("Enter admin password: ")
     
     if User.query.filter_by(username=username).first():
         print("User already exists!")

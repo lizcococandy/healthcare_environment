@@ -20,13 +20,17 @@ def index():
 def add():
     """Add new waste management record"""
     if request.method == 'POST':
-        facility_name = request.form.get('facility_name')
-        measurement_date = datetime.strptime(request.form.get('measurement_date'), '%Y-%m-%d').date()
-        medical_waste_kg = float(request.form.get('medical_waste_kg', 0))
-        general_waste_kg = float(request.form.get('general_waste_kg', 0))
-        recyclable_waste_kg = float(request.form.get('recyclable_waste_kg', 0))
-        hazardous_waste_kg = float(request.form.get('hazardous_waste_kg', 0))
-        notes = request.form.get('notes', '')
+        try:
+            facility_name = request.form.get('facility_name')
+            measurement_date = datetime.strptime(request.form.get('measurement_date'), '%Y-%m-%d').date()
+            medical_waste_kg = float(request.form.get('medical_waste_kg', 0))
+            general_waste_kg = float(request.form.get('general_waste_kg', 0))
+            recyclable_waste_kg = float(request.form.get('recyclable_waste_kg', 0))
+            hazardous_waste_kg = float(request.form.get('hazardous_waste_kg', 0))
+            notes = request.form.get('notes', '')
+        except (ValueError, TypeError) as e:
+            flash('輸入資料格式錯誤，請檢查日期和數值格式', 'error')
+            return render_template('waste/add.html')
         
         record = WasteManagement(
             facility_name=facility_name,

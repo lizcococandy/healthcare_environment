@@ -30,10 +30,15 @@ def login():
 def register():
     """User registration"""
     if request.method == 'POST':
-        username = request.form.get('username')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        full_name = request.form.get('full_name')
+        username = request.form.get('username', '').strip()
+        email = request.form.get('email', '').strip()
+        password = request.form.get('password', '').strip()
+        full_name = request.form.get('full_name', '').strip()
+        
+        # Validate required fields
+        if not username or not email or not password:
+            flash('所有必填欄位都需要填寫', 'error')
+            return render_template('auth/register.html')
         
         # Check if user exists
         if User.query.filter_by(username=username).first():

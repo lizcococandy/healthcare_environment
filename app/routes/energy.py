@@ -20,12 +20,16 @@ def index():
 def add():
     """Add new energy consumption record"""
     if request.method == 'POST':
-        facility_name = request.form.get('facility_name')
-        measurement_date = datetime.strptime(request.form.get('measurement_date'), '%Y-%m-%d').date()
-        electricity_kwh = float(request.form.get('electricity_kwh', 0))
-        natural_gas_m3 = float(request.form.get('natural_gas_m3', 0))
-        fuel_oil_liters = float(request.form.get('fuel_oil_liters', 0))
-        notes = request.form.get('notes', '')
+        try:
+            facility_name = request.form.get('facility_name')
+            measurement_date = datetime.strptime(request.form.get('measurement_date'), '%Y-%m-%d').date()
+            electricity_kwh = float(request.form.get('electricity_kwh', 0))
+            natural_gas_m3 = float(request.form.get('natural_gas_m3', 0))
+            fuel_oil_liters = float(request.form.get('fuel_oil_liters', 0))
+            notes = request.form.get('notes', '')
+        except (ValueError, TypeError) as e:
+            flash('輸入資料格式錯誤，請檢查日期和數值格式', 'error')
+            return render_template('energy/add.html')
         
         record = EnergyConsumption(
             facility_name=facility_name,

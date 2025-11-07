@@ -20,11 +20,15 @@ def index():
 def add():
     """Add new water usage record"""
     if request.method == 'POST':
-        facility_name = request.form.get('facility_name')
-        measurement_date = datetime.strptime(request.form.get('measurement_date'), '%Y-%m-%d').date()
-        water_consumption_m3 = float(request.form.get('water_consumption_m3'))
-        wastewater_m3 = float(request.form.get('wastewater_m3', 0))
-        notes = request.form.get('notes', '')
+        try:
+            facility_name = request.form.get('facility_name')
+            measurement_date = datetime.strptime(request.form.get('measurement_date'), '%Y-%m-%d').date()
+            water_consumption_m3 = float(request.form.get('water_consumption_m3'))
+            wastewater_m3 = float(request.form.get('wastewater_m3', 0))
+            notes = request.form.get('notes', '')
+        except (ValueError, TypeError) as e:
+            flash('輸入資料格式錯誤，請檢查日期和數值格式', 'error')
+            return render_template('water/add.html')
         
         record = WaterUsage(
             facility_name=facility_name,
